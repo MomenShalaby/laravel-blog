@@ -23,7 +23,7 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(3),
             'description' => fake()->sentence(4),
-            'image' => "http://localhost:8000/post_placeholder.png",
+            'image' => "/post_placeholder.png",
             'user_id' => fake()->randomElement($userIds),
         ];
     }

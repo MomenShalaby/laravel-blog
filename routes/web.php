@@ -11,9 +11,10 @@ Route::get('/', function () {
 // Route::resource('posts', 'PostController');
 
 Route::controller(PostController::class)->prefix('/post')->group(function () {
-    Route::get('/', 'index');
-    Route::post('/', 'store');
-    Route::get('/{post}', 'show');
-    Route::put('/{post}', 'update');
-    Route::delete('/{post}', 'destroy');
+    Route::get('/', 'index')->name('posts.index');
+    Route::get('/create', 'create')->name('posts.create');
+    Route::post('/', 'store')->name('posts.store');
+    Route::get('/{post}', 'show')->name('posts.show');
+    Route::put('/{post}', 'update')->name('posts.update');
+    Route::delete('/{post}', 'destroy')->name('posts.destroy');
 });

@@ -21,7 +21,7 @@ class PostResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'user' => new UserResource($this->whenLoaded('user')),
-
+            'created_at' => $this->created_at,
         ];
     }
 }

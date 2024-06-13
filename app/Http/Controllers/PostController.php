@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Traits\CanLoadRelationships;
 use App\Traits\FileUploader;
 use Illuminate\Http\Request;
@@ -22,8 +25,9 @@ class PostController extends Controller
     public function index()
     {
         $query = $this->loadRelationships(Post::query());
-        $posts = PostResource::collection($query->latest()->paginate());
-        return response()->json(['data' => $posts]);
+        $posts = PostResource::collection($query->with('user')->latest()->paginate());
+        return view('posts.index', ['posts' => $posts]);
+
     }
 
     /**
@@ -31,23 +35,21 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('posts.create', ['users' => User::all()]);
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request)
+    public function store(PostStoreRequest $request)
     {
         $post = Post::create(
-            $request->all()
+            $request->validated()
         );
-
         $this->uploadImage($request, $post, "post");
-        $query = $this->loadRelationships($post);
-        $posts = new PostResource($query);
-        return response()->json(['data' => $posts]);
-
+        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
     }
 
     /**
@@ -56,8 +58,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $query = $this->loadRelationships($post);
-        $posts = new PostResource($query);
-        return response()->json(['data' => $posts]);
+        $post = new PostResource($query);
+        // return response()->json(['data' => $posts]);
+        return view('posts.show', ['post' => $post]);
 
     }
 
@@ -72,10 +75,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostRequest $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
         $post->update(
-            $request->all()
+            $request->validated()
         );
         $query = $this->loadRelationships($post);
         $post = new PostResource($query);
