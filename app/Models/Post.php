@@ -10,7 +10,11 @@ class Post extends Model
 {
     use HasFactory;
     protected $fillable = ["title", "description", "image", "user_id"];
-
+    
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = ucwords($value);
+    }
 
 
     public function user(): BelongsTo

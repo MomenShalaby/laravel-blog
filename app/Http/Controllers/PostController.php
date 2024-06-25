@@ -69,7 +69,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', ['post' => $post, 'users' => User::all()]);
+
     }
 
     /**
@@ -80,9 +81,8 @@ class PostController extends Controller
         $post->update(
             $request->validated()
         );
-        $query = $this->loadRelationships($post);
-        $post = new PostResource($query);
-        return response()->json(['data' => $post]);
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
     }
 
     /**

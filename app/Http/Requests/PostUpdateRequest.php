@@ -11,7 +11,7 @@ class PostUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class PostUpdateRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'string', 'min:3', 'max:255'],
-            'description' => ['sometimes', 'string'],
+            'description' => ['sometimes', 'string','max:500'],
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
             'user_id' => 'sometimes|exists:users,id',
 

@@ -23,7 +23,7 @@ class PostStoreRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'min:3', 'max:255'],
-            'description' => ['required', 'string'],
+            'description' => ['required', 'string', 'max:500'],
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'user_id' => 'required|exists:users,id',
         ];

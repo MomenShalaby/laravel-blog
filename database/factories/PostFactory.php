@@ -22,7 +22,7 @@ class PostFactory extends Factory
 
         return [
             'title' => fake()->sentence(3),
-            'description' => fake()->sentence(4),
+            'description' => fake()->sentence(50),
             'image' => "/post_placeholder.png",
             'user_id' => fake()->randomElement($userIds),
         ];
